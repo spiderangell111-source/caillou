@@ -9,16 +9,25 @@ permissions:
 jobs:
   unpack:
     runs-on: ubuntu-latest
+
     steps:
       - name: Получить файлы
         uses: actions/checkout@v4
 
-      - name: Распаковать архив
+      - name: Проверить архив
         run: |
-          unzip -o caillou-android-project.zip -d .
+          ls -la
+          test -f caillou-android-project.zip
+
+      - name: Распаковать проект
+        run: |
+          mkdir -p extracted
+          unzip -o caillou-android-project.zip -d extracted
+          cp -a extracted/caillou-android/. .
+          rm -rf extracted
           rm caillou-android-project.zip
 
-      - name: Сохранить распакованный проект
+      - name: Сохранить изменения
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"

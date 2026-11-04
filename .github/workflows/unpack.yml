@@ -11,15 +11,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Получить файлы
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Проверить архив
+      - name: Check archive
         run: |
           ls -la
           test -f caillou-android-project.zip
 
-      - name: Распаковать проект
+      - name: Unpack project
         run: |
           mkdir -p extracted
           unzip -o caillou-android-project.zip -d extracted
@@ -27,10 +27,10 @@ jobs:
           rm -rf extracted
           rm caillou-android-project.zip
 
-      - name: Сохранить изменения
+      - name: Commit and push
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add .
-          git commit -m "Распаковка Android-проекта" || echo "Нет изменений"
+          git commit -m "Распаковка Android-проекта" || echo "No changes"
           git push
